@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>
+        Seranfuen Pie Chart JS Widget
+    </title>
+    <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+    <h1>What is Serfuen Pie Chart Widget</h1>
+    <p>
+        It's a Javascript library that uses HTML 5 canvas to draw a pie chart representing the data passed to it.
+    </p>
+    <p>
+        I wrote this library to develop my JavaScript skills and it's not to be considered complete or throughly tested. However, those who need a quick and simple library to show pie charts may find it useful, as well as a starting point for those who wish to build functionality on top of this base..
+    </p>
+    <p>The Serfuen Pie Chart has the following features:
+    
+    <ul>
+        <li>Automated creation of pie charts by giving the individual data</li>
+        <li>Possibility to display a legend that details each of the data</li>
+        <li>Automated scaling to try to fit as much of the canvas space as possible</li>
+        <li>Allows changing the data or options of the Pie Chart dynamically to create animations or interactivity</li>
+    </ul>
+    </p>
+    <p>The library uses the canvas element of HTML 5 and has no other dependencies. It's licensed </p>
+
+    <h1>Adding a Serfuen Pie Chart Widget to your website</h1>
+    <p>I will assume basic knowledge of HTML and JavaScript. We need to include the library <code>serfuen.js</code> in the page and add a <code>&le;canvas&ge;</code> where you want to display the pie chart. You must give the canvas an <i>id</i>. Using CSS the desired <strong>size</strong> of the pie chart must be given to the canvas</p>
+    <p>The steps are:</p>
+    <ol>
+        <li>You need to create an array with each of the data that will feed the Pie Chart. Each piece of data will be an object with the following fields
+            <p>
+                <code>name:      The name that describes the Pie Chart sector</code> (<strong>required</strong>, eg. Price of steel)
+            </p>    
+    <p><code>value:      A numerical value for the sector</code> (<strong>required</strong>, eg. 223.50032)</p>
+            <p><code>formattedValue:      A string with the numerical value in the correct format</code> (eg. 223,50 €) (<strong>Not required</strong>, if missing no value will be shown in the chart legend box)</p>
+            <p>Example:</p>
+            <code> var data = [{ value: 46, valueFormatted: "46 million", name: "Spain" },<br/>
+                &nbsp;&nbsp; { value: 80, valueFormatted: "80 million", name: "Germany" },<br />
+                &nbsp;&nbsp; { value: 66, valueFormatted: "66 million", name: "France" },<br />
+                &nbsp;&nbsp; { value: 64, valueFormatted: "64 million", name: "United Kingdom" },<br />
+                &nbsp;&nbsp; { value: 38, valueFormatted: "38 million", name: "Poland" },<br />
+                &nbsp;&nbsp; { value: 17, valueFormatted: "17 million", name: "Netherlands" },<br />
+                &nbsp;&nbsp; { value: 11, valueFormatted: "11 million", name: "Belgium" },<br />
+                &nbsp;&nbsp; { value: 10, valueFormatted: "10 million", name: "Portugal" }]
+            </code>
+        </li>
+        <li>We create an object with pairs <string>key - value</string> that will represent the options passed to the program. See next section for the options that can be passed
+        <p>Example:</p>
+        <code>    var options = {<br/>
+            &nbsp; data: data,<br />
+            &nbsp; font: 14<br/>
+            };
+            </code>
+        </li>
+        <li>
+            <p>Now we create a Pie Chart object passing the <strong>id</strong> of the canvas where we want to draw the pie chart and the options that we have populated in the previous section. This operation will return an object that allows us to manipulate the pie chart after it's drawn (see next section)</p>
+            <code>
+                var pie = SERFUEN.pieChart("pieChart", options);
+            </code>
+        </li>
+    </ol>
+
+    <h2>Pie Chart Options</h2>
+    <p>As described, the options are <string>key - value</string> pairs that allow us to customize the chart. The following fields are available:</p>
+    <p><code>data</code> &mdash; an array of objects as described in the previous section that populate the Pie Chart with data. It may be empty to show an empty Pie Chart</p>
+    <p><code>showPercentageInSectors</code> &mdash; a Boolean that sets wheteher the percentage each sector represents should be shown outside the pie, next to the sector. <strong>True</strong> by default</p>
+    <p><code>showCaptionLocation</code> &mdash; the expected values are <code>"Left", "Right"</code> or <code>null</code>. Determines the position of the legend box (right or left of the pie) or does not display it. The size of the pie will be affected and when showing a legend box, the canvas should be wider. When not showing, the canvas should be a square</p>
+    <p><code>minimumCaption</code> &mdash; When the pie chart data can change dynamically, the width of the legend box may change as the data changes, causing the pie to shrink or expand to fill the remaining space. In order to avoid this, we can pass a string with the expected minimum width that the box should occupy regardless of actual length of its captions. If left null or undefined, the legend box will be resized dynamically based on current data</p>
+    <p><code>colorPalette</code> &mdash; an array of strings representing an HTML color (it can be &quot;black&quot; or &quot;#000000&quot;). At least three colors should be given and they should be distinct from each other to make the pie easier to read</p>
+    <p><code>sectorLineColor</code> &mdash; the HTML name of the color to be used to divide the pie in sectors. It's &quot;LightGray&quot; by default</p>
+    <p><code>sectorLineWidth</code> &mdash; width in pixels of the line dividing the pie in sectors</p>
+    <p><code>circleLineColor</code> &mdash; color of the pie circle</p>
+    <p><code>circleLineWidth</code> &mdash; width in pixels of the pie circle</p>
+    <p><code>font</code> &mdash; size in pixels of the font to be used. If left null or undefined, it will be resized dynamically based on the size of the pie. Otherwise, setting this value will force a font size and the library will try its best to fit the contents in the canvas</p>
+
+    <h2>Pie Chart object API</h2>
+    <p>The object returned by the function <code>pieChart</code> exposes an API that allows manipulating the pie chart dynamically at any point</p>
+    <p><code>show()</code> &mdash; displays the pie</p>
+    <p><code>hide()</code> &mdash; hides the pie content</p>
+    <p><code>setData(data)</code> &mdash; changes the data that's feeding the pie. Equivalent to <code>option(&quot;data&quot;, data)</code></p>
+    <p><code>option(key)</code> &mdash; returns the current value of the option whose key is provided (see previous section for keys)</p>
+    <p><code>option(key, value)</code> &mdash; changes the current value of the option whose key is provided (see previous section for keys) to the new value. It also returns the new value</p>
+
+    <h1>Version history</h1>
+    <ul>
+        <li>Version 0.0.1 &ndash; initial version with basic functionality</li>
+    </ul>
+
+    <h1>To do</h1>
+    <p>The library is still not mature and as it was born to test my JavaScript skills, and considering that there are probably hundreds of similar, better libraries, I may not continue developing this, so it is provided as it is</p>
+    <p>However, should a developer find this library useful and think that he/she can expand it, I'm detailing some of the more pressing issues that should be addressed</p>
+    <ul>
+        <li><strong>Better dynamic sizing</strong>. The font size only takes into account the width/height of the canvas to prevent a small canvas having a desproportionally large font. The size should also take into account the size of the captions and other factors. More testing is necessary to get the sizes right</li>
+        <li><strong>Better legend box sizing</strong>. Right now each entry takes only one line. For very long lines, it means it will be buggy. It should try to fit as much as possible for a given height by wrapping words where possible</li>
+        <li><strong>More otpions</strong>. Right now some options, such as the background color of the legend box, are hard-coded. It should become an option</li>
+    </ul>
+
+    <h1>Contact</h1>
+    <p>You are free to use this library or to modify it as you wish. However if you decided to use this library for your website I'd be happy if you'd give me <a href="mailto:seranfuen@gmail.com">feedback</a>: just a comment, information on bugs or improvements, etc.</p>
+</body>
+</html>
